@@ -124,9 +124,15 @@ Silakan klik link undangan berikut:
 
   <script>
     function buatDaftar() {
-      const namaList = document.getElementById("namaInput").value.trim().split(/\n+/);
       const linkUndangan = document.getElementById("linkUndangan").value.trim();
+      const namaList = document.getElementById("namaInput").value.trim().split(/
++/);
       const pengantar = document.getElementById("pengantarInput").value;
+
+      if (!linkUndangan) {
+        alert("Harap masukkan link undangan terlebih dahulu!");
+        return;
+      }
 
       const tbody = document.querySelector("#tabelTamu tbody");
       tbody.innerHTML = "";
@@ -134,9 +140,11 @@ Silakan klik link undangan berikut:
       namaList.forEach((nama, i) => {
         if (!nama.trim()) return;
 
+        const generatedLink = linkUndangan + "?nama=" + encodeURIComponent(nama);
+
         const finalText = pengantar
           .replace(/\[nama\]/g, nama)
-          .replace(/\[link-undangan\]/g, linkUndangan + "?nama=" + encodeURIComponent(nama));
+          .replace(/\[link-undangan\]/g, generatedLink);
 
         const waMessage = encodeURIComponent(finalText);
         const waURL = "https://wa.me/?text=" + waMessage;
@@ -146,17 +154,20 @@ Silakan klik link undangan berikut:
             <td>${i + 1}</td>
             <td>${nama}</td>
             <td>
-              <a href="${waURL}" target="_blank">
-                <button class="wa-btn">Kirim WA</button>
-              </a>
+              <button class="wa-btn" onclick="tandaiDikirim(this); window.open('${waURL}', '_blank');">Kirim WA</button>
             </td>
-          </tr>`;
+          </tr>`;;
 
         tbody.innerHTML += row;
       });
 
       document.getElementById("tabelTamu").style.display = "table";
     }
+  function tandaiDikirim(btn) {
+        btn.style.background = '#999';
+        btn.style.cursor = 'default';
+        btn.innerText = 'Terkirim';
+      }
   </script>
   <footer style="text-align:center; margin-top:30px; color:#777; font-size:14px;">© 2025 LittlesDesign</footer>
 </body>
