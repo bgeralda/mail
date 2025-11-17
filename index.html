@@ -144,7 +144,7 @@ Silakan klik link undangan berikut:
 
         const finalText = pengantar
           .replace(/\[nama\]/g, nama)
-          .replace(/\[link-undangan\]/g, generatedLink);
+          .replace(/\[link-undangan\]/g, linkUndangan + "?nama=" + encodeURIComponent(nama));
 
         const waMessage = encodeURIComponent(finalText);
         const waURL = "https://wa.me/?text=" + waMessage;
