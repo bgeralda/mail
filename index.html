@@ -125,8 +125,7 @@ Silakan klik link undangan berikut:
   <script>
     function buatDaftar() {
       const linkUndangan = document.getElementById("linkUndangan").value.trim();
-      const namaList = document.getElementById("namaInput").value.trim().split(/
-+/);
+      const namaList = document.getElementById("namaInput").value.trim().split(/\n+/);
       const pengantar = document.getElementById("pengantarInput").value;
 
       if (!linkUndangan) {
