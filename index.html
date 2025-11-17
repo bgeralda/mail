@@ -97,6 +97,9 @@
   <div class="container">
     <h2>Generator Nama Tamu Undangan</h2>
 
+    <label>Masukkan link undangan (tanpa parameter nama):</label>
+    <input id="linkUndangan" type="text" placeholder="https://contoh-link-undangan.com" style="width:100%; padding:10px; border:2px solid #ffd96a; border-radius:10px; margin-bottom:15px; font-family:'Poppins',sans-serif;">
+
     <label>Masukkan daftar nama tamu (satu nama per baris): (pisahkan dengan baris baru):</label>
     <textarea id="namaInput" placeholder="Contoh:\nNatasa A\nNatasa B\nNatasa C"></textarea>
 
@@ -122,6 +125,7 @@ Silakan klik link undangan berikut:
   <script>
     function buatDaftar() {
       const namaList = document.getElementById("namaInput").value.trim().split(/\n+/);
+      const linkUndangan = document.getElementById("linkUndangan").value.trim();
       const pengantar = document.getElementById("pengantarInput").value;
 
       const tbody = document.querySelector("#tabelTamu tbody");
@@ -132,7 +136,7 @@ Silakan klik link undangan berikut:
 
         const finalText = pengantar
           .replace(/\[nama\]/g, nama)
-          .replace(/\[link-undangan\]/g, "https://contoh-link-undangan.com/?nama=" + encodeURIComponent(nama));
+          .replace(/\[link-undangan\]/g, linkUndangan + "?nama=" + encodeURIComponent(nama)));
 
         const waMessage = encodeURIComponent(finalText);
         const waURL = "https://wa.me/?text=" + waMessage;
