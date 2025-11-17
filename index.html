@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generator Nama Tamu & Kata Pengantar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    textarea {
+      width: 100%;
+      height: 120px;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #aaa;
+      resize: vertical;
+    }
+    button {
+      background: #0a965f;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      width: 100%;
+    }
+    button:hover {
+      background: #08774a;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    .wa-btn {
+      background: #25D366;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Generator Nama Tamu Undangan</h2>
+
+    <label>Masukkan daftar nama (pisahkan dengan baris baru):</label>
+    <textarea id="namaInput" placeholder="Contoh:\nNatasa A\nNatasa B\nNatasa C"></textarea>
+
+    <label style="margin-top:15px; display:block">Masukkan teks pengantar:</label>
+    <textarea id="pengantarInput">Tanpa mengurangi rasa hormat, perkenankan kami mengundang Bapak/Ibu/Saudara/i [nama] untuk menghadiri acara kami.
+Silakan klik link undangan berikut:
+[link-undangan]</textarea>
+
+    <button onclick="buatDaftar()">Buat Daftar Nama Tamu</button>
+
+    <table id="tabelTamu" style="display:none">
+      <thead>
+        <tr>
+          <th>No</th>
+          <th>Nama Tamu</th>
+          <th>Aksi</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <script>
+    function buatDaftar() {
+      const namaList = document.getElementById("namaInput").value.trim().split(/\n+/);
+      const pengantar = document.getElementById("pengantarInput").value;
+
+      const tbody = document.querySelector("#tabelTamu tbody");
+      tbody.innerHTML = "";
+
+      namaList.forEach((nama, i) => {
+        if (!nama.trim()) return;
+
+        const finalText = pengantar
+          .replace(/\[nama\]/g, nama)
+          .replace(/\[link-undangan\]/g, "https://contoh-link-undangan.com/?to=" + encodeURIComponent(nama));
+
+        const waMessage = encodeURIComponent(finalText);
+        const waURL = "https://wa.me/?text=" + waMessage;
+
+        const row = `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${nama}</td>
+            <td>
+              <a href="${waURL}" target="_blank">
+                <button class="wa-btn">Kirim WA</button>
+              </a>
+            </td>
+          </tr>`;
+
+        tbody.innerHTML += row;
+      });
+
+      document.getElementById("tabelTamu").style.display = "table";
+    }
+  </script>
+  <footer style="text-align:center; margin-top:30px; color:#777; font-size:14px;">© 2025 LittlesDesign</footer>
+</body>
+</html>
